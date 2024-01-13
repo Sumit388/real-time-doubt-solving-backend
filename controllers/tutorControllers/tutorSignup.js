@@ -11,34 +11,29 @@ const tutorSignup = asyncHandler(async (req, res) => {
 
   // If request is invalid or incomplete
   if (!name || !email || !password || !class_grade || !language || !subjects) {
-    res.status(400);
+    res.statusCode(400);
     throw new Error("All fields are mandatory");
   }
 
-  try {
-    // Check if the email is already registered
-    const result = await pool.query("SELECT * FROM tutors WHERE email = $1", [
-      email,
-    ]);
-    if (result.rows.length > 0) {
-      res.status(400);
-      throw new Error("User already exists");
-    }
-
-    // Registering the new tutor here
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await pool.query(
-      "INSERT INTO tutors (name, email, password, class_grade, language, subjects, created_at) VALUES ($1, $2, $3, $4, $5, $6,  NOW())",
-      [name, email, hashedPassword, class_grade, language, subjects]
-    );
-
-    res.status(201).json({
-      message: "Tutor registered successfully. Please login to continue",
-    });
-  } catch (error) {
-    console.error("Error during tutor registration:", error);
-    res.status(500).send("Internal Server Error");
+  // Check if the email is already registered
+  const result = await pool.query("SELECT * FROM tutors WHERE email = $1", [
+    email,
+  ]);
+  if (result.rows.length > 0) {
+    res.statusCode(400);
+    throw new Error("User already exists");
   }
+
+  // Registering the new tutor here
+  const hashedPassword = await bcrypt.hash(password, 10);
+  await pool.query(
+    "INSERT INTO tutors (name, email, password, class_grade, language, subjects, created_at) VALUES ($1, $2, $3, $4, $5, $6,  NOW())",
+    [name, email, hashedPassword, class_grade, language, subjects]
+  );
+
+  res.status(201).json({
+    message: "Tutor registered successfully. Please login to continue",
+  });
 });
 
 module.exports = tutorSignup;

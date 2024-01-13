@@ -6,6 +6,7 @@ const addDoubt = require("../controllers/doubtsControllers/postDoubt");
 const getTutorDoubts = require("../controllers/doubtsControllers/getTutorsDoubts");
 const getStudentDoubts = require("../controllers/doubtsControllers/getStudentDoubts");
 const addDoubtTutor = require("../controllers/doubtsControllers/addDoubtTutor");
+const getAllPendingDoubts = require("../controllers/doubtsControllers/getAllPendingDoubts");
 
 // * Middleware Import * //
 const authenticationHandler = require("../middlewares/authenticationHandler");
@@ -23,6 +24,13 @@ route
     authenticationHandler,
     authorizationHandler(["STUDENT"]),
     getStudentDoubts
+  );
+
+  route
+  .route("/pending")
+  .get(
+    authenticationHandler,
+    getAllPendingDoubts
   );
 
 route

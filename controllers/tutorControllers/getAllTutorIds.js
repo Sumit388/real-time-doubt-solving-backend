@@ -9,21 +9,16 @@ const pool = require("../../database/db");
 //@access public
 
 const getAllTutors = asyncHandler(async (req, res) => {
-  try {
-    // Retrieve all tutors with their names and IDs
-    const result = await pool.query('SELECT id, name FROM tutors');
+  // Retrieve all tutors with their names and IDs
+  const result = await pool.query("SELECT id, name FROM tutors");
 
-    const tutors = result.rows;
+  const tutors = result.rows;
 
-    res.status(200).json({
-      message: "Tutors found",
-      count: tutors.length,
-      data: tutors,
-    });
-  } catch (error) {
-    console.error("Error retrieving tutors:", error);
-    res.status(500).send("Internal Server Error");
-  }
+  res.status(200).json({
+    message: "Tutors found",
+    count: tutors.length,
+    data: tutors,
+  });
 });
 
 module.exports = getAllTutors;

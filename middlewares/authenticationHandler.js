@@ -8,7 +8,7 @@ const authenticationHandler = asyncHandler(async (req, res, next) => {
 
   if (authHeader && authHeader.startsWith("Bearer")) {
     token = authHeader.split(" ")[1];
-    jwt.verify(token, process.env.SECERET_KEY, (err, decoded) => {
+    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
       if (err) {
         res.status(401);
         throw new Error("User not authorised");

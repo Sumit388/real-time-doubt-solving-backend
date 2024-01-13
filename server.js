@@ -1,6 +1,8 @@
 // * Packages Import * //
 const express = require("express");
 const dotenv = require("dotenv").config();
+const cors=require("cors")
+
 
 // * Routes Import * //
 const studentRoutes = require("./routes/studentRoutes");
@@ -16,11 +18,18 @@ const errorHandler = require("./middlewares/errorHandler");
 const app = express();
 const port = process.env.PORT;
 
+const corsOptions = {
+  origin: '*',
+  methods: ['POST', 'GET', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}
+
 app.use(express.json());
+app.use(cors(corsOptions));
 app.use("/api/students", studentRoutes);
 app.use("/api/tutors", tutorRoutes);
 app.use("/api/doubts", doubtRoutes);
-app.use("/api/doubts/:id/message", messageRoutes)
+app.use("/api/doubts/:id/message", messageRoutes);
 app.use(errorHandler);
 
 try {

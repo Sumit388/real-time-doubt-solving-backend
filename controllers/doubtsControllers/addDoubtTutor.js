@@ -15,7 +15,7 @@ const addTutorToDoubt = asyncHandler(async (req, res) => {
 
   try {
     // Check if the doubt with the provided ID exists
-    const doubtResult = await pool.query('SELECT * FROM doubts WHERE id = $1', [doubtId]);
+    const doubtResult = await pool.query('SELECT * FROM doubts WHERE doubt_id = $1', [doubtId]);
 
     if (doubtResult.rows.length === 0) {
       res.status(404);
@@ -24,7 +24,7 @@ const addTutorToDoubt = asyncHandler(async (req, res) => {
 
     // Update the doubt with the provided tutorId and tutorName
     await pool.query(
-        'UPDATE doubts SET tutor_id = $1, tutor_name = $2 WHERE id = $3',
+        'UPDATE doubts SET tutor_id = $1, tutor_name = $2 WHERE doubt_id = $3',
         [tutorId, tutorName, doubtId]
       );
 
