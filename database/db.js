@@ -9,13 +9,9 @@ const devConfig = {
   port: process.env.DB_PORT, // Usually 5432
 };
 
-const propConfig = {
+const pool = new Pool({
   connectionString: process.env.POSTGRES_URL + "?sslmode=require",
-};
-
-const pool = new Pool(
-  process.env.NODE_ENV === "production" ? propConfig : devConfig
-);
+});
 
 module.exports = {
   query: (text, params) => pool.query(text, params),
